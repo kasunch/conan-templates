@@ -1,13 +1,66 @@
 parameters:
   conanLoginUsername: ""
   conanPassword: ""
+  conanOptions: ""
+  conanArchs: ""
+  conanVersion: ""
   pythonVersion: "3.7.6"
+  linuxGCCVersion: "7"
   vsVersions: "14,15,16"  # Possible values: any combination of 14, 15, 16 or empty ("")
   appleClangVersions: ""  # Possible values: "10", "" (for no Apple Clang build jobs)
   splitByBuildTypes: "false"  # Possible values: "false", "true"
   requireMoreDiskSpace: "false" # Possible values: "false", "true" - Deletes the entire Java stack for Windows images
 
 jobs:
+- ${{ if ne(parameters.linuxGCCVersion, '') }}:
+  - job: Linux
+    pool:
+      vmImage: $(AZP_BUILD_WORKER_IMAGE)
+    timeoutInMinutes: 120
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: ${{ parameters.pythonVersion }}
+    - script: |
+        pip install --upgrade pip cmake
+        python --version
+        pip --version
+        which cmake
+        cmake --version
+        pip install bincrafters_package_tools
+        conan user
+      displayName: Install Conan
+    - script: |
+        python build.py
+      env:
+        CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
+        CONAN_PASSWORD: ${{ parameters.conanPassword }}
+        ${{ if ne(parameters.conanOptions, '') }}
+          CONAN_OPTIONS: ${{ parameters.conanOptions }}
+        ${{ if ne(parameters.conanArchs, '') }}
+          CONAN_ARCHS: ${{ parameters.conanArchs }}
+        ${{ if ne(parameters.conanVersion, '') }}
+          CONAN_VERSION: ${{ parameters.conanVersion }}
+      displayName: Run
+
+    strategy:
+      matrix:
+        ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
+          ${{ if contains(parameters.linuxGCCVersion, 7) }}:
+            GCC 7 Release:
+              AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_GCC_VERSIONS: 7
+              CONAN_BUILD_TYPES: Release
+            GCC 7 Debug:
+              AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_GCC_VERSIONS: 7
+              CONAN_BUILD_TYPES: Debug
+        ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
+          ${{ if contains(parameters.linuxGCCVersion, 7) }}:
+            GCC 7:
+              AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_GCC_VERSIONS: 7
+
 - ${{ if ne(parameters.appleClangVersions, '') }}:
   - job: macOS
     pool:
@@ -31,6 +84,12 @@ jobs:
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
+        ${{ if ne(parameters.conanOptions, '') }}
+          CONAN_OPTIONS: ${{ parameters.conanOptions }}
+        ${{ if ne(parameters.conanArchs, '') }}
+          CONAN_ARCHS: ${{ parameters.conanArchs }}
+        ${{ if ne(parameters.conanVersion, '') }}
+          CONAN_VERSION: ${{ parameters.conanVersion }}
       displayName: Run
     
     strategy:
