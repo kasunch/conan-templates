@@ -35,11 +35,11 @@ jobs:
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
-        ${{ if ne(parameters.conanOptions, '') }}
+        ${{ if ne(parameters.conanOptions, '') }}:
           CONAN_OPTIONS: ${{ parameters.conanOptions }}
-        ${{ if ne(parameters.conanArchs, '') }}
+        ${{ if ne(parameters.conanArchs, '') }}:
           CONAN_ARCHS: ${{ parameters.conanArchs }}
-        ${{ if ne(parameters.conanVersion, '') }}
+        ${{ if ne(parameters.conanVersion, '') }}:
           CONAN_VERSION: ${{ parameters.conanVersion }}
       displayName: Run
 
@@ -84,11 +84,11 @@ jobs:
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
-        ${{ if ne(parameters.conanOptions, '') }}
+        ${{ if ne(parameters.conanOptions, '') }}:
           CONAN_OPTIONS: ${{ parameters.conanOptions }}
-        ${{ if ne(parameters.conanArchs, '') }}
+        ${{ if ne(parameters.conanArchs, '') }}:
           CONAN_ARCHS: ${{ parameters.conanArchs }}
-        ${{ if ne(parameters.conanVersion, '') }}
+        ${{ if ne(parameters.conanVersion, '') }}:
           CONAN_VERSION: ${{ parameters.conanVersion }}
       displayName: Run
     
