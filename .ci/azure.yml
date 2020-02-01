@@ -49,16 +49,19 @@ jobs:
           ${{ if contains(parameters.linuxGCCVersion, 7) }}:
             GCC 7 Release:
               AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_DOCKER_IMAGE: conanio/gcc7
               CONAN_GCC_VERSIONS: 7
               CONAN_BUILD_TYPES: Release
             GCC 7 Debug:
               AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_DOCKER_IMAGE: conanio/gcc7
               CONAN_GCC_VERSIONS: 7
               CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.linuxGCCVersion, 7) }}:
             GCC 7:
               AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+              CONAN_DOCKER_IMAGE: conanio/gcc7
               CONAN_GCC_VERSIONS: 7
 
 - ${{ if ne(parameters.appleClangVersions, '') }}:
