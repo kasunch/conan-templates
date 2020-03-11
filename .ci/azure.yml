@@ -6,7 +6,7 @@ parameters:
   conanVersion: ""
   pythonVersion: "3.7.6"
   linuxGCCVersion: "7"
-  vsVersions: "14,15,16"  # Possible values: any combination of 14, 15, 16 or empty ("")
+  vsVersions: "15,16"  # Possible values: any combination of 15, 16 or empty ("")
   appleClangVersions: ""  # Possible values: "10", "" (for no Apple Clang build jobs)
   splitByBuildTypes: "false"  # Possible values: "false", "true"
   requireMoreDiskSpace: "false" # Possible values: "false", "true" - Deletes the entire Java stack for Windows images
@@ -189,15 +189,6 @@ jobs:
     strategy:
       matrix:
         ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
-          ${{ if contains(parameters.vsVersions, 14) }}:
-            VS 2015 Release:
-              AZP_BUILD_WORKER_IMAGE: vs2015-win2012r2
-              CONAN_VISUAL_VERSIONS: 14
-              CONAN_BUILD_TYPES: Release
-            VS 2015 Debug:
-              AZP_BUILD_WORKER_IMAGE: vs2015-win2012r2
-              CONAN_VISUAL_VERSIONS: 14
-              CONAN_BUILD_TYPES: Debug
           ${{ if contains(parameters.vsVersions, 15) }}:
             VS 2017 Release:
               AZP_BUILD_WORKER_IMAGE: vs2017-win2016
@@ -217,10 +208,6 @@ jobs:
               CONAN_VISUAL_VERSIONS: 16
               CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
-          ${{ if contains(parameters.vsVersions, 14) }}:
-            VS 2015:
-              AZP_BUILD_WORKER_IMAGE: vs2015-win2012r2
-              CONAN_VISUAL_VERSIONS: 14
           ${{ if contains(parameters.vsVersions, 15) }}:
             VS 2017:
               AZP_BUILD_WORKER_IMAGE: vs2017-win2016
