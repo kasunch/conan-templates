@@ -4,6 +4,7 @@ parameters:
   conanOptions: ""
   conanArchs: ""
   conanVersion: ""
+  conanBuildTypes: "Release,Debug"
   pythonVersion: "3.7.6"
   linuxGCCVersion: "7"
   vsVersions: "15,16"  # Possible values: any combination of 15, 16 or empty ("")
@@ -47,22 +48,25 @@ jobs:
       matrix:
         ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.linuxGCCVersion, 7) }}:
-            GCC 7 Release:
-              AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
-              CONAN_DOCKER_IMAGE: conanio/gcc7
-              CONAN_GCC_VERSIONS: 7
-              CONAN_BUILD_TYPES: Release
-            GCC 7 Debug:
-              AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
-              CONAN_DOCKER_IMAGE: conanio/gcc7
-              CONAN_GCC_VERSIONS: 7
-              CONAN_BUILD_TYPES: Debug
+            ${{ if contains(parameters.conanBuildTypes 'Release') }}:
+              GCC 7 Release:
+                AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+                CONAN_DOCKER_IMAGE: conanio/gcc7
+                CONAN_GCC_VERSIONS: 7
+                CONAN_BUILD_TYPES: Release
+            ${{ if contains(parameters.conanBuildTypes 'Debug') }}:
+              GCC 7 Debug:
+                AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
+                CONAN_DOCKER_IMAGE: conanio/gcc7
+                CONAN_GCC_VERSIONS: 7
+                CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.linuxGCCVersion, 7) }}:
             GCC 7:
               AZP_BUILD_WORKER_IMAGE: "Ubuntu 16.04"
               CONAN_DOCKER_IMAGE: conanio/gcc7
               CONAN_GCC_VERSIONS: 7
+              CONAN_BUILD_TYPES: ${{ parameters.conanBuildTypes }}
 
 - ${{ if ne(parameters.appleClangVersions, '') }}:
   - job: macOS
@@ -99,19 +103,22 @@ jobs:
       matrix:
         ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.appleClangVersions, 10) }}:
-            Apple-Clang 10 Release:
-              AZP_BUILD_WORKER_IMAGE: macOS-10.14
-              CONAN_APPLE_CLANG_VERSIONS: 10.0
-              CONAN_BUILD_TYPES: Release
-            Apple-Clang 10 Debug:
-              AZP_BUILD_WORKER_IMAGE: macOS-10.14
-              CONAN_APPLE_CLANG_VERSIONS: 10.0
-              CONAN_BUILD_TYPES: Debug
+            ${{ if contains(parameters.conanBuildTypes 'Release') }}:
+              Apple-Clang 10 Release:
+                AZP_BUILD_WORKER_IMAGE: macOS-10.14
+                CONAN_APPLE_CLANG_VERSIONS: 10.0
+                CONAN_BUILD_TYPES: Release
+            ${{ if contains(parameters.conanBuildTypes 'Debug') }}:
+              Apple-Clang 10 Debug:
+                AZP_BUILD_WORKER_IMAGE: macOS-10.14
+                CONAN_APPLE_CLANG_VERSIONS: 10.0
+                CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.appleClangVersions, 10) }}:
             Apple-Clang 10:
               AZP_BUILD_WORKER_IMAGE: macOS-10.14
               CONAN_APPLE_CLANG_VERSIONS: 10.0
+              CONAN_BUILD_TYPES: ${{ parameters.conanBuildTypes }}
 
 - ${{ if ne(parameters.vsVersions, '') }}:
   - job: Windows
@@ -190,29 +197,35 @@ jobs:
       matrix:
         ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.vsVersions, 15) }}:
-            VS 2017 Release:
-              AZP_BUILD_WORKER_IMAGE: vs2017-win2016
-              CONAN_VISUAL_VERSIONS: 15
-              CONAN_BUILD_TYPES: Release
-            VS 2017 Debug:
-              AZP_BUILD_WORKER_IMAGE: vs2017-win2016
-              CONAN_VISUAL_VERSIONS: 15
-              CONAN_BUILD_TYPES: Debug
+            ${{ if contains(parameters.conanBuildTypes 'Release') }}:
+              VS 2017 Release:
+                AZP_BUILD_WORKER_IMAGE: vs2017-win2016
+                CONAN_VISUAL_VERSIONS: 15
+                CONAN_BUILD_TYPES: Release
+            ${{ if contains(parameters.conanBuildTypes 'Debug') }}:
+              VS 2017 Debug:
+                AZP_BUILD_WORKER_IMAGE: vs2017-win2016
+                CONAN_VISUAL_VERSIONS: 15
+                CONAN_BUILD_TYPES: Debug
           ${{ if contains(parameters.vsVersions, 16) }}:
-            VS 2019 Release:
-              AZP_BUILD_WORKER_IMAGE: windows-2019
-              CONAN_VISUAL_VERSIONS: 16
-              CONAN_BUILD_TYPES: Release
-            VS 2019 Debug:
-              AZP_BUILD_WORKER_IMAGE: windows-2019
-              CONAN_VISUAL_VERSIONS: 16
-              CONAN_BUILD_TYPES: Debug
+            ${{ if contains(parameters.conanBuildTypes 'Release') }}:
+              VS 2019 Release:
+                AZP_BUILD_WORKER_IMAGE: windows-2019
+                CONAN_VISUAL_VERSIONS: 16
+                CONAN_BUILD_TYPES: Release
+            ${{ if contains(parameters.conanBuildTypes 'Debug') }}:
+              VS 2019 Debug:
+                AZP_BUILD_WORKER_IMAGE: windows-2019
+                CONAN_VISUAL_VERSIONS: 16
+                CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.vsVersions, 15) }}:
             VS 2017:
               AZP_BUILD_WORKER_IMAGE: vs2017-win2016
               CONAN_VISUAL_VERSIONS: 15
+              CONAN_BUILD_TYPES: ${{ parameters.conanBuildTypes }}
           ${{ if contains(parameters.vsVersions, 16) }}:
             VS 2019:
               AZP_BUILD_WORKER_IMAGE: windows-2019
               CONAN_VISUAL_VERSIONS: 16
+              CONAN_BUILD_TYPES: ${{ parameters.conanBuildTypes }}
