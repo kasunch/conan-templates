@@ -91,10 +91,6 @@ jobs:
         conan user
       displayName: Install Conan
     - script: |
-        if [[ ! $version == *".0" ]]; then
-          CONAN_APPLE_CLANG_VERSIONS=$CONAN_APPLE_CLANG_VERSIONS".0"
-        fi;
-        sudo xcode-select -switch $AZP_XCODE_PATH
         clang++ --version
         if [[ -f "build.py" ]]; then 
           python build.py;
