@@ -32,7 +32,11 @@ jobs:
         conan user
       displayName: Install Conan
     - script: |
-        python build.py
+        if [[ -f "build.py" ]]; then 
+          python build.py;
+        else
+          bincrafters-package-tools --auto;
+        fi
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
@@ -87,7 +91,16 @@ jobs:
         conan user
       displayName: Install Conan
     - script: |
-        python build.py
+        if [[ ! $version == *".0" ]]; then
+          CONAN_APPLE_CLANG_VERSIONS=$CONAN_APPLE_CLANG_VERSIONS".0"
+        fi;
+        sudo xcode-select -switch $AZP_XCODE_PATH
+        clang++ --version
+        if [[ -f "build.py" ]]; then 
+          python build.py;
+        else
+          bincrafters-package-tools --auto;
+        fi
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
@@ -181,7 +194,12 @@ jobs:
           Start-Process -NoNewWindow cmd.exe '/c (del /f/s/q "C:\Program Files\Java" > nul) && (rmdir /S /Q "C:\Program Files\Java")'
           Start-Process -NoNewWindow cmd.exe '/c (del /f/s/q "C:\Program Files\dotnet\sdk\" > nul) && (rmdir /S /Q "C:\Program Files\dotnet\sdk\")' 
         }
-        python build.py
+        $rootDir = $pwd.path
+        if (Test-Path "$($rootDir)\build.py") {
+          python ('{0}\build.py' -f $rootDir)
+        } else {
+          bincrafters-package-tools --auto
+        }
       env:
         CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
         CONAN_PASSWORD: ${{ parameters.conanPassword }}
