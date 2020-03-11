@@ -100,17 +100,17 @@ jobs:
         ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.appleClangVersions, 10) }}:
             Apple-Clang 10 Release:
-              AZP_BUILD_WORKER_IMAGE: macOS-10.13
+              AZP_BUILD_WORKER_IMAGE: macOS-10.14
               CONAN_APPLE_CLANG_VERSIONS: 10.0
               CONAN_BUILD_TYPES: Release
             Apple-Clang 10 Debug:
-              AZP_BUILD_WORKER_IMAGE: macOS-10.13
+              AZP_BUILD_WORKER_IMAGE: macOS-10.14
               CONAN_APPLE_CLANG_VERSIONS: 10.0
               CONAN_BUILD_TYPES: Debug
         ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
           ${{ if contains(parameters.appleClangVersions, 10) }}:
             Apple-Clang 10:
-              AZP_BUILD_WORKER_IMAGE: macOS-10.13
+              AZP_BUILD_WORKER_IMAGE: macOS-10.14
               CONAN_APPLE_CLANG_VERSIONS: 10.0
 
 - ${{ if ne(parameters.vsVersions, '') }}:
