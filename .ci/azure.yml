@@ -22,7 +22,7 @@ parameters:
     default: "14,15,16"  # Possible values: any combination of 14, 15, 16
   - name: enableAppleClangBuilds
     type: boolean
-    default: false
+    default: true
   - name: appleClangVersions
     type: string
     default: "10,11"  # Possible values: any combination of "10", "11"
@@ -62,6 +62,9 @@ parameters:
   - name: conanStableBranchPattern
     type: string
     default: "stable/*" # Git branch pattern for uploading
+  - name: enableLinuxGCCBuilds
+    type: boolean
+    default: true
   - name: linuxGCCVersions
     type: string
     default: "7" # Linux GCC version to be used
@@ -288,7 +291,7 @@ stages:
                           CONAN_RECIPE_DIRECTORY: ${{ format('{0}\{1}', parameters.collectionsBasePath, recipe.name) }}
                           CONAN_BUILD_TYPES: ${{ parameters.conanBuildTypes }}
 
-    - ${{ if ne(parameters.linuxGCCVersion, '') }}:
+    - ${{ if eq(parameters.enableLinuxGCCBuilds, 'true') }}:
       - job: Linux
         pool:
           vmImage: $(AZP_BUILD_WORKER_IMAGE)
