@@ -327,18 +327,19 @@ stages:
           displayName: Run
 
         strategy:
+          maxParallel: ${{ parameters.jobsMaxParallel }}
           matrix:
             ${{ if eq(parameters.splitByBuildTypes, 'true') }}:
               ${{ each gcc in parameters.linuxGCCVersionMapping }}:
                 ${{ if contains(parameters.linuxGCCVersions, gcc.version) }}:
                   ${{ if contains(parameters.conanBuildTypes, 'Release') }}:
-                    GCC ${{ gcc.version }} Release ${{ recipe.name }}:
+                    GCC ${{ gcc.version }} Release:
                       AZP_BUILD_WORKER_IMAGE: ${{ gcc.image }}
                       CONAN_DOCKER_IMAGE: ${{ gcc.docker_image }}
                       CONAN_GCC_VERSIONS: ${{ gcc.version }}
                       CONAN_BUILD_TYPES: Release
                   ${{ if contains(parameters.conanBuildTypes, 'Debug') }}:
-                    GCC ${{ gcc.version }} Debug ${{ recipe.name }}:
+                    GCC ${{ gcc.version }} Debug:
                       AZP_BUILD_WORKER_IMAGE: ${{ gcc.image }}
                       CONAN_DOCKER_IMAGE: ${{ gcc.docker_image }}
                       CONAN_GCC_VERSIONS: ${{ gcc.version }}
@@ -346,7 +347,7 @@ stages:
             ${{ if ne(parameters.splitByBuildTypes, 'true') }}:
               ${{ each gcc in parameters.linuxGCCVersionMapping }}:
                 ${{ if contains(parameters.linuxGCCVersions, gcc.version) }}:
-                  GCC ${{ gcc.version }} ${{ recipe.name }}:
+                  GCC ${{ gcc.version }}:
                     AZP_BUILD_WORKER_IMAGE: ${{ gcc.image }}
                     CONAN_DOCKER_IMAGE: ${{ gcc.docker_image }}
                     CONAN_GCC_VERSIONS: ${{ gcc.version }}
