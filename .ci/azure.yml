@@ -56,7 +56,7 @@ parameters:
   - name: conanOptions
     type: string
     default: "" # Additional build options
-  - name: conanArchs:
+  - name: conanArchs
     type: string
     default: "" # CPU architectures to be built 
   - name: conanStableBranchPattern
