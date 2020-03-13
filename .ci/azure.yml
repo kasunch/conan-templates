@@ -56,6 +56,9 @@ parameters:
   - name: conanOptions
     type: string
     default: "" # Additional build options
+  - name: conanSharedOptionName
+    type: string
+    default: "" # Conan shared option name for common config matrix 
   - name: conanArchs
     type: string
     default: "" # CPU architectures to be built 
@@ -136,6 +139,8 @@ stages:
             CONAN_PASSWORD: ${{ parameters.conanPassword }}
             ${{ if ne(parameters.conanOptions, '') }}:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
+            ${{ if ne(parameters.conanSharedOptionName, '') }}:
+              CONAN_SHARED_OPTION_NAME: ${{ parameters.conanSharedOptionName }}
             ${{ if ne(parameters.conanArchs, '') }}:
               CONAN_ARCHS: ${{ parameters.conanArchs }}
             ${{ if ne(parameters.conanStableBranchPattern, '') }}:
@@ -250,6 +255,8 @@ stages:
             CONAN_UPLOAD_ONLY_WHEN_STABLE: ${{ parameters.conanUploadOnlyWhenStable }}
             ${{ if ne(parameters.conanOptions, '') }}:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
+            ${{ if ne(parameters.conanSharedOptionName, '') }}:
+              CONAN_SHARED_OPTION_NAME: ${{ parameters.conanSharedOptionName }}
             ${{ if ne(parameters.conanArchs, '') }}:
               CONAN_ARCHS: ${{ parameters.conanArchs }}
             ${{ if ne(parameters.conanStableBranchPattern, '') }}:
@@ -320,6 +327,8 @@ stages:
             CONAN_PASSWORD: ${{ parameters.conanPassword }}
             ${{ if ne(parameters.conanOptions, '') }}:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
+            ${{ if ne(parameters.conanSharedOptionName, '') }}:
+              CONAN_SHARED_OPTION_NAME: ${{ parameters.conanSharedOptionName }}
             ${{ if ne(parameters.conanArchs, '') }}:
               CONAN_ARCHS: ${{ parameters.conanArchs }}
             ${{ if ne(parameters.conanStableBranchPattern, '') }}:
