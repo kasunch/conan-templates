@@ -59,6 +59,9 @@ parameters:
   - name: conanSharedOptionName
     type: string
     default: "" # Conan shared option name for common config matrix 
+  - name: conanVsRuntimes
+    type: string
+    default: "" # Conan option for Visual Studio runtimes, e.g. "MT,MD"
   - name: conanArchs
     type: string
     default: "" # CPU architectures to be built 
@@ -257,6 +260,8 @@ stages:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
             ${{ if ne(parameters.conanSharedOptionName, '') }}:
               CONAN_SHARED_OPTION_NAME: ${{ parameters.conanSharedOptionName }}
+            ${{ if ne(parameters.conanVsRuntimes, '') }}:
+              CONAN_VISUAL_RUNTIMES: ${{ parameters.conanVsRuntimes }}
             ${{ if ne(parameters.conanArchs, '') }}:
               CONAN_ARCHS: ${{ parameters.conanArchs }}
             ${{ if ne(parameters.conanStableBranchPattern, '') }}:
