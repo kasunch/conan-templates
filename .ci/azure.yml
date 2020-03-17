@@ -204,7 +204,6 @@ stages:
               Remove-Item get-pip.py
           displayName: UsePythonVersion for VS 2015
         - powershell: |
-            $env:GIT_REDIRECT_STDERR = '2>&1'
             $delete = $(
               Start-Process -PassThru -NoNewWindow cmd.exe '/c rmdir /S /Q "C:\ProgramData\chocolatey"';
               Start-Process -PassThru -NoNewWindow cmd.exe '/c rmdir /S /Q "C:\Strawberry\"';
@@ -228,7 +227,7 @@ stages:
             pip --version
             echo (get-command cmake).Path
             cmake --version
-            pip install git+https://github.com/kasunch/conan-package-tools.git@release/0.32.1-kasun
+            pip install --quiet git+https://github.com/kasunch/conan-package-tools.git@release/0.32.1-kasun
             pip install bincrafters-package-tools
             Start-Process -Wait -NoNewWindow cmd.exe '/c conan user'
           displayName: Install Conan
