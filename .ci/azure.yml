@@ -123,6 +123,7 @@ stages:
             pip --version
             which cmake
             cmake --version
+            pip install git+https://github.com/kasunch/conan-package-tools.git
             pip install bincrafters_package_tools
             conan user
           displayName: Install Conan
@@ -226,6 +227,7 @@ stages:
             pip --version
             echo (get-command cmake).Path
             cmake --version
+            pip install git+https://github.com/kasunch/conan-package-tools.git
             pip install bincrafters-package-tools
             Start-Process -Wait -NoNewWindow cmd.exe '/c conan user'
           displayName: Install Conan
@@ -319,6 +321,7 @@ stages:
             pip --version
             which cmake
             cmake --version
+            pip install git+https://github.com/kasunch/conan-package-tools.git
             pip install bincrafters_package_tools
             conan user
           displayName: Install Conan
