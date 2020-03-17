@@ -16,13 +16,13 @@ parameters:
     default: "3.7.6"
   - name: enableVsBuilds
     type: boolean
-    default: true
+    default: false
   - name: vsVersions
     type: string
     default: "14,15,16"  # Possible values: any combination of 14, 15, 16
   - name: enableAppleClangBuilds
     type: boolean
-    default: true
+    default: false
   - name: appleClangVersions
     type: string
     default: "10,11"  # Possible values: any combination of "10", "11"
@@ -58,7 +58,7 @@ parameters:
     default: "" # Additional build options
   - name: conanSharedOptionName
     type: string
-    default: "" # Conan shared option name for common config matrix 
+    default: "" # Conan shared option name for common config matrix. Use "False" to disable this 
   - name: conanVsRuntimes
     type: string
     default: "" # Conan option for Visual Studio runtimes, e.g. "MT,MD"
@@ -70,7 +70,7 @@ parameters:
     default: "stable/*" # Git branch pattern for uploading
   - name: enableLinuxGCCBuilds
     type: boolean
-    default: true
+    default: false
   - name: linuxGCCVersions
     type: string
     default: "7" # Linux GCC version to be used
@@ -140,6 +140,7 @@ stages:
           env:
             CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
             CONAN_PASSWORD: ${{ parameters.conanPassword }}
+            CONAN_UPLOAD_ONLY_WHEN_STABLE: ${{ parameters.conanUploadOnlyWhenStable }}
             ${{ if ne(parameters.conanOptions, '') }}:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
             ${{ if ne(parameters.conanSharedOptionName, '') }}:
@@ -330,6 +331,7 @@ stages:
           env:
             CONAN_LOGIN_USERNAME: ${{ parameters.conanLoginUsername }}
             CONAN_PASSWORD: ${{ parameters.conanPassword }}
+            CONAN_UPLOAD_ONLY_WHEN_STABLE: ${{ parameters.conanUploadOnlyWhenStable }}
             ${{ if ne(parameters.conanOptions, '') }}:
               CONAN_OPTIONS: ${{ parameters.conanOptions }}
             ${{ if ne(parameters.conanSharedOptionName, '') }}:
