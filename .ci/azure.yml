@@ -227,7 +227,6 @@ stages:
             pip --version
             echo (get-command cmake).Path
             cmake --version
-            pip install "git+https://github.com/kasunch/conan-package-tools.git@release/0.32.1-kasun"
             pip install bincrafters-package-tools
             Start-Process -Wait -NoNewWindow cmd.exe '/c conan user'
           displayName: Install Conan
