@@ -101,7 +101,7 @@ parameters:
     type: object
     default:
       - version: 7
-        image: Docker-CentOs 6
+        image: Ubuntu 16.04
         docker_image: conanio/gcc7-centos6
 
 stages:
