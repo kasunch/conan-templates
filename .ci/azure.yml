@@ -101,8 +101,8 @@ parameters:
     type: object
     default:
       - version: 7
-        image: Ubuntu 16.04
-        docker_image: conanio/gcc7
+        image: Docker-CentOs 6
+        docker_image: conanio/gcc7-centos6
 
 stages:
 - ${{ each stage in parameters.collectionsStages }}:
