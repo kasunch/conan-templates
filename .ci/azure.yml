@@ -100,6 +100,9 @@ parameters:
   - name: linuxGCCVersionMapping
     type: object
     default:
+      - version: 5.4
+        image: Ubuntu 16.04
+        docker_image: conanio/gcc54
       - version: 7
         image: Ubuntu 16.04
         docker_image: conanio/gcc7
